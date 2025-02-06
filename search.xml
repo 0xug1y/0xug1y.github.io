@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>typora免激活教程</title>
+      <link href="/2025/02/06/typora%E5%85%8D%E6%BF%80%E6%B4%BB%E6%95%99%E7%A8%8B/"/>
+      <url>/2025/02/06/typora%E5%85%8D%E6%BF%80%E6%B4%BB%E6%95%99%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Typora激活步骤（理论全版本通用）"><a href="#Typora激活步骤（理论全版本通用）" class="headerlink" title="Typora激活步骤（理论全版本通用）"></a>Typora激活步骤（理论全版本通用）</h2><ol><li>下载最新版typora</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://typora.io/</span><br></pre></td></tr></table></figure><ol start="2"><li>安装完后，进入<strong>typora</strong>的安装目录下的 \resources\page-dist\static\js 目录，找到 LicenseIndex开头的文件</li></ol><p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250206101820742.png" alt="image-20250206101820742"></p><ol start="3"><li>用文本编辑器打开该文件，搜索hasActivated&#x3D;”true”&#x3D;&#x3D;e.hasActivated并将其替换为hasActivated&#x3D;”true”&#x3D;&#x3D;”true”<br>（修改前，可将该文件备份一下，万一操作失误，可以进行恢复）</li></ol><p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250206101946060.png" alt="image-20250206101946060"></p><ol start="4"><li>修改完成，此时打开typora会显示已激活</li></ol><p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250206102023627.png" alt="image-20250206102023627"></p><p>此时会有问题，每次打开之后都会显示这个界面，想要关闭的可以</p><blockquote><p>修改 Typora安装目录\resources\page-dist\license.html，关闭每次启动时的已激活弹窗</p><p>查找：</body></html><br>替换：</body><script>window.onload=function(){window.close();}</script></html></p></blockquote><p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250206102317786.png" alt="image-20250206102317786"></p><p>如果打开之后偶尔还是会有弹窗可以修改为</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="regexp">/body&gt;&lt;script&gt;window.onload=function()&#123;setTimeout(()=&gt;&#123;window.close();&#125;,5);&#125;&lt;/</span>script&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 工具教程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2024/12/09/hello-world/"/>
       <url>/2024/12/09/hello-world/</url>
