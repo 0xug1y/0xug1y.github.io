@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="0x01 前言最近一直体验ds，但是因为火爆所以访问超时，加上ds又是一个开源的大数据模型，所以尝试一下在本地部署一下ds 关于ds0x02 安装 需要安装三个工具，下载ollama、webui可视化（可选）、anythingLLM和nomic-embed-text（实现数据投喂）  安装ollama首先我们需要安装Ollama，它可以在本地运行和管理大模型。 到Ollama官网 ，点击下载，然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本地搭建大模型并进行私域数据训练">
+<meta property="og:url" content="https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/index.html">
+<meta property="og:site_name" content="ug1y&#39;s Blog">
+<meta property="og:description" content="0x01 前言最近一直体验ds，但是因为火爆所以访问超时，加上ds又是一个开源的大数据模型，所以尝试一下在本地部署一下ds 关于ds0x02 安装 需要安装三个工具，下载ollama、webui可视化（可选）、anythingLLM和nomic-embed-text（实现数据投喂）  安装ollama首先我们需要安装Ollama，它可以在本地运行和管理大模型。 到Ollama官网 ，点击下载，然后">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218160041178.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218160136248.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218161102397.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218161210361.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218161335724.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218162406032.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/45c7569a0dc305259e6371af26902e81.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/4f72681404f6a82d9082532eee201b24.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/2965df0a5c2442e318f5546534e9178e.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/6108f69ec7e36a8c9b4101734362cf50.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/359fa31ee256d039873c9d015bdef1f8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/d3f99384cf53f35ed7f4c7139c33a8b8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/a51fe7b600657b29107172e0bd1601b5.png">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/img_convert/d028b47180315f250706a31f12068a9d.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/c30c46c95db400f116b132766fa7574f.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/bb301ab9049e8159bbcfee06dcedd7b3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/6801b03dcbb2ecc8c9a8fb859df9e036.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/6eae4e31c2719aa178f27ea8d9a3c5ec.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/94d2f40d573dcb7141e8ce35307e4071.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/3591d1de4dd2aa79949d1d447ce1abaa.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/9ee08a507f353b448d4ec1009401cb61.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/8584eb6f6bcc0f10f8e7d271454b4175.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/05e9d99e6771805d343bb3eb7f1eb81b.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/1e9a9ea039ba732659dc3b1d5b61ccf3.png">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/img_convert/ed1b03f8cb2d5d9e9ae35393db6b5f48.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/3ad3e6a9bab680b1526212ccf86451b9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/c96b3fcc38e1ba2b715a499ccea43e6f.png">
+<meta property="article:published_time" content="2025-02-18T06:59:33.000Z">
+<meta property="article:modified_time" content="2025-02-18T08:31:27.410Z">
+<meta property="article:author" content="ug1y">
+<meta property="article:tag" content="工具教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218160041178.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>本地搭建大模型并进行私域数据训练</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/0xug1y">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/02/10/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&text=本地搭建大模型并进行私域数据训练"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&is_video=false&description=本地搭建大模型并进行私域数据训练"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=本地搭建大模型并进行私域数据训练&body=Check out this article: https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&name=本地搭建大模型并进行私域数据训练&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&t=本地搭建大模型并进行私域数据训练"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">0x01 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Eds"><span class="toc-number">1.1.</span> <span class="toc-text">关于ds</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">0x02 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85ollama"><span class="toc-number">2.1.</span> <span class="toc-text">安装ollama</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9ollama%E6%A8%A1%E5%9E%8B%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.1.1.</span> <span class="toc-text">修改ollama模型位置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8A%95%E5%96%82%E8%AE%AD%E7%BB%83"><span class="toc-number">2.2.</span> <span class="toc-text">数据投喂训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebUI%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E6%9D%A5%E6%BA%90%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">WebUI可视化（来源）</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        本地搭建大模型并进行私域数据训练
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">ug1y</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-02-18T06:59:33.000Z" class="dt-published" itemprop="datePublished">2025-02-18</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B/" rel="tag">工具教程</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="0x01-前言"><a href="#0x01-前言" class="headerlink" title="0x01 前言"></a>0x01 前言</h2><p>最近一直体验ds，但是因为火爆所以访问超时，加上ds又是一个开源的大数据模型，所以尝试一下在本地部署一下ds</p>
+<h3 id="关于ds"><a href="#关于ds" class="headerlink" title="关于ds"></a>关于ds</h3><h2 id="0x02-安装"><a href="#0x02-安装" class="headerlink" title="0x02 安装"></a>0x02 安装</h2><blockquote>
+<p>需要安装三个工具，下载ollama、webui可视化（可选）、anythingLLM和nomic-embed-text（实现数据投喂）</p>
+</blockquote>
+<h3 id="安装ollama"><a href="#安装ollama" class="headerlink" title="安装ollama"></a>安装ollama</h3><p>首先我们需要安装Ollama，它可以在本地运行和管理大模型。</p>
+<p>到<a target="_blank" rel="noopener" href="https://ollama.com/">Ollama官网</a> ，点击下载，然后选择适合自己系统的版本，这里选择Windows：</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218160041178.png" alt="image-20250218160041178"></p>
+<p>验证安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218160136248.png" alt="image-20250218160136248"></p>
+<p>出现这个即代表安装成功</p>
+<p>安装大模型</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218161102397.png" alt="image-20250218161102397"></p>
+<p>选取自己需要的模型，我这里是8b的，越多模型越智能但是性能需求越高</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218161210361.png" alt="image-20250218161210361"></p>
+<h4 id="修改ollama模型位置"><a href="#修改ollama模型位置" class="headerlink" title="修改ollama模型位置"></a>修改ollama模型位置</h4><p>有人会不喜欢无缘无故往C盘放文件，所以想要换位置保存模型文件，问有办法吗，我只能说有的，兄弟，有的。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218161335724.png" alt="image-20250218161335724"></p>
+<p><a target="_blank" rel="noopener" href="https://ceshiren.com/t/topic/33267">图片来源</a></p>
+<h3 id="数据投喂训练"><a href="#数据投喂训练" class="headerlink" title="数据投喂训练"></a>数据投喂训练</h3><p>实现数据投喂训练AI，需要下载nomic-embed-text和安装AnythingLLM。</p>
+<p>下载nomic-embed-text：</p>
+<p>在终端输入ollama pull nomic-embed-text回车下载nomic-embed-text嵌入式模型（后面做数据投喂会用到）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ollama pull nomic-embed-text</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/image-20250218162406032.png" alt="image-20250218162406032"></p>
+<p>安装AnythingLLM：</p>
+<p>进入官网，选择对应系统版本的安装包进行下载</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/45c7569a0dc305259e6371af26902e81.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/4f72681404f6a82d9082532eee201b24.png" alt="img"></p>
+<p>选择【所有用户】点击下一步。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/2965df0a5c2442e318f5546534e9178e.png" alt="img"></p>
+<p>修改路径地址中的首字符C可更改安装位置，本例安装到F盘，点击下一步。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/6108f69ec7e36a8c9b4101734362cf50.png" alt="img"></p>
+<p>点击完成。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/359fa31ee256d039873c9d015bdef1f8.png" alt="img"></p>
+<p>软件打开后，点击【Get started】。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/d3f99384cf53f35ed7f4c7139c33a8b8.png" alt="img"></p>
+<p>点击箭头，进行下一步。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/a51fe7b600657b29107172e0bd1601b5.png" alt="img"></p>
+<p>输入工作区名称，点击下一步箭头。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/d028b47180315f250706a31f12068a9d.png" alt="img"></p>
+<p>点击【设置】，里面可以设置模型、界面显示语言等。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/c30c46c95db400f116b132766fa7574f.png" alt="img"></p>
+<p>若软件显示英文，可在Customization外观定制里面选择Chinese即可。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/bb301ab9049e8159bbcfee06dcedd7b3.png" alt="img"></p>
+<p>AnythingLLM设置</p>
+<p>在软件设置里面，LLM首选项界面，提供商选择Ollama，Ollama Model选择你前面下载的DeepSeek-R1系列模型1.5b~671b，然后点击Save changes。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/6801b03dcbb2ecc8c9a8fb859df9e036.png" alt="img"></p>
+<p>在Embedder首选项界面，嵌入引擎提供商选择Ollama，Ollama Embedding Mode选择【nomic-embed-text】，然后点击保存更改。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/6eae4e31c2719aa178f27ea8d9a3c5ec.png" alt="img"></p>
+<p>①点击【工作区设置】，②点击聊天设置，③工作区LLM提供者选择【Ollama】，④工作区聊天模型选择【deepseek-r1】模型，⑤然后点击【Update workspace agent】。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/94d2f40d573dcb7141e8ce35307e4071.png" alt="img"></p>
+<p>代理配置界面，工作区代理LLM提供商选择【Ollama】，工作区代理模型选择【deepseek-r1】，然后点击【Update workspace agent】。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/3591d1de4dd2aa79949d1d447ce1abaa.png" alt="img"></p>
+<p>最后就是数据投喂训练AI：</p>
+<p>在工作区界面，点击【上传】。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/9ee08a507f353b448d4ec1009401cb61.png" alt="img"></p>
+<p>❶点击upload选择需要上传的文件（支持PDF、Txt、Word、Excel、PPT等常见文档格式）。❷勾选上传的文件，❸点击【Move to Workspace】。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/8584eb6f6bcc0f10f8e7d271454b4175.png" alt="img"></p>
+<p>点击【Save and Embed】。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/05e9d99e6771805d343bb3eb7f1eb81b.png" alt="img"></p>
+<p>没有投喂数据之前，输入正点原子公司名称是什么？AI是回答不了的，投喂后能够准确回答出来。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/1e9a9ea039ba732659dc3b1d5b61ccf3.png" alt="img"></p>
+<p>到这里数据投喂训练AI就完成啦，有需求的完全可以自己搭建一个智能知识库出来。</p>
+<h3 id="WebUI可视化（来源）"><a href="#WebUI可视化（来源）" class="headerlink" title="WebUI可视化（来源）"></a>WebUI可视化（<a target="_blank" rel="noopener" href="https://deepseek.csdn.net/67ab1bb179aaf67875cb9528.html">来源</a>）</h3><p>WebUI可视化选择直接在浏览器安装Page Assist插件的方式来实现。</p>
+<p>Page Assist是本地 AI 模型的 Web UI，可以使用本地运行的 AI 模型来辅助进行网络浏览，利用本地运行的AI模型，在浏览网页时进行交互，或者作为本地AI模型提供者（如Ollama、Chrome AI等）的网页界面。</p>
+<p>仓库地址：<a target="_blank" rel="noopener" href="https://github.com/n4ze3m/page-assist">https://github.com/n4ze3m/page-assist</a></p>
+<p>当前功能：</p>
+<p>- 各类任务的侧边栏</p>
+<p>- 支持视觉模型</p>
+<p>- 本地AI模型的简约网页界面</p>
+<p>- 网络搜索功能</p>
+<p>- 在侧边栏与PDF进行对话</p>
+<p>- 与文档对话（支持pdf、csv、txt、md、docx格式）</p>
+<p>要把DeepSeek可视化，首先在扩展中的管理扩展页面获取Page Assist</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/ed1b03f8cb2d5d9e9ae35393db6b5f48.png" alt="img"></p>
+<p>获取完成后，就可以在扩展中看到PageAssist插件，点击对应的插件就可以直接使用。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/3ad3e6a9bab680b1526212ccf86451b9.png" alt="img"></p>
+<p>进入插件后，选择我们上面下载好的deepseek模型，然后就可以跟DeepSeek进行可视化对话了，如果需要获取最新的数据，需要打开下方的联网开关。</p>
+<p><img src="https://raw.githubusercontent.com/0xug1y/photos/main/c96b3fcc38e1ba2b715a499ccea43e6f.png" alt="img"></p>
+<p>到这里，DeepSeek的WebUI可视化就完成了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/0xug1y">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">0x01 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Eds"><span class="toc-number">1.1.</span> <span class="toc-text">关于ds</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">0x02 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85ollama"><span class="toc-number">2.1.</span> <span class="toc-text">安装ollama</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9ollama%E6%A8%A1%E5%9E%8B%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.1.1.</span> <span class="toc-text">修改ollama模型位置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8A%95%E5%96%82%E8%AE%AD%E7%BB%83"><span class="toc-number">2.2.</span> <span class="toc-text">数据投喂训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebUI%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%88%E6%9D%A5%E6%BA%90%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">WebUI可视化（来源）</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&text=本地搭建大模型并进行私域数据训练"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&is_video=false&description=本地搭建大模型并进行私域数据训练"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=本地搭建大模型并进行私域数据训练&body=Check out this article: https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&title=本地搭建大模型并进行私域数据训练"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&name=本地搭建大模型并进行私域数据训练&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://0xug1y.github.io/2025/02/18/%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B9%B6%E8%BF%9B%E8%A1%8C%E7%A7%81%E5%9F%9F%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83/&t=本地搭建大模型并进行私域数据训练"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    ug1y
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+      --><li><a href="/">Home</a></li><!--
+    --><!--
+      --><li><a href="/about/">About</a></li><!--
+    --><!--
+      --><li><a href="/archives/">Writing</a></li><!--
+    --><!--
+      --><li><a href="/search/">Search</a></li><!--
+    --><!--
+      --><li><a target="_blank" rel="noopener" href="https://github.com/0xug1y">Projects</a></li><!--
+    -->
+      </ul>
+      <ul>
+        
+          <!-- 不蒜子统计 -->
+          <span id="busuanzi_container_site_pv">
+              本站总访问量<span id="busuanzi_value_site_pv"></span>次
+          </span>
+          <span class="post-meta-divider">|</span>
+          <span id="busuanzi_container_site_uv" style='display:none'>
+                  本站访客数<span id="busuanzi_value_site_uv"></span>人
+          </span>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        
+      </ul>
+    </nav>
+  </div>
+  
+</footer>
+
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
